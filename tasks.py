@@ -36,6 +36,12 @@ def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
 
 @app.post('/check', response_class=HTMLResponse)
 def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
+    if (2022 - int(credentials.password.split('-')[0])) < 16 or int(credentials.password.split('-')[1]) > 12:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Wrong date format or not old enough",
+            headers={"WWW-Authenticate": "Basic"},
+        )
 
     return f'''
 <html>
@@ -43,13 +49,13 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
             
         </head>
         <body>
-            <h1>Welcome {credentials.username}! You are {(2022 - int(credentials.password.split('-')[0]))}</h1>
+            <h1>Welcome {credentials.username}! You are {(2022 - int(credentials.password.split('-')[0]))}!</h1>
         </body>
     </html>
 '''
 
 
-@app.post('/test',response_class=HTMLResponse)
+@app.post('/test', response_class=HTMLResponse)
 def post_login(credentials: HTTPBasicCredentials = Depends(security)):
     return f'''
 <html>
