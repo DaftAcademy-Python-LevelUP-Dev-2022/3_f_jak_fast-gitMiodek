@@ -44,14 +44,9 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
         )
 
     return f'''
-<html>
-        <head>
-            
-        </head>
-        <body>
-            <h1>Welcome {credentials.username}! You are {(2022 - int(credentials.password.split('-')[0]))}!</h1>
-        </body>
-    </html>
+
+            <h1>Welcome {credentials.username}! You are {(2022 - int(credentials.password.split('-')[0]))}</h1>
+     
 '''
 
 
