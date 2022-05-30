@@ -45,13 +45,14 @@ from typing import Optional
 
 
 @app.get('/info')
-def header(format: Optional[str], response: Response, user: str = Header(default=None)):
+def header(format: str, user_agent: str = Header(default=None)):
     if format == 'html':
-        html_content = f'<input type="text" id=user-agent name=agent value="{user}">'
+        html_content = f'<input type="text" id=user-agent name=agent value="{user_agent}">'
         HTMLResponse(content=html_content, status_code=200)
     elif format == 'json':
-        HTMLResponse(content={
-            "user_agent": f"{user}"}, status_code=200)
+        return {
+            "user_agent": user_agent
+        }
 
 
     else:
