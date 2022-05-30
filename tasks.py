@@ -24,14 +24,7 @@ def html_static():
 security = HTTPBasic()
 
 
-def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
-    if (2022 - int(credentials.password.split('-')[0])) < 16 or int(credentials.password.split('-')[1]) > 12:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Wrong date format or not old enough",
-            headers={"WWW-Authenticate": "Basic"},
-        )
-    return credentials.password, credentials.username
+
 
 
 @app.post('/check', response_class=HTMLResponse)
@@ -49,16 +42,18 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
      
 '''
 
+from fastapi import Header
+@app.get('/info')
+def header(format: str = Header(default=None)):
+    if format == 'html':
+        html_content = '<input type="text" id=user-agent name=agent value="<wartość User-Agent>">'
+        HTMLResponse(content=html_content, status_code=200)
+    elif format == 'json':
+        return {
+    "user_agent": "<wartość headera User-Agent wyslanego przez użytkownika>"
+}
+    else:
+        return status.HTTP_400_BAD_REQUEST
 
-@app.post('/test', response_class=HTMLResponse)
-def post_login(credentials: HTTPBasicCredentials = Depends(security)):
-    return f'''
-<html>
-        <head>
-            
-        </head>
-        <body>
-            <h1>Welcome {credentials.username}! You are {credentials.password}</h1>
-        </body>
-    </html>
-'''
+
+
