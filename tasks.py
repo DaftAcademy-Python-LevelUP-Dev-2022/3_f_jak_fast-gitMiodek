@@ -75,7 +75,8 @@ def check_path(string: str, response: Response):
         return HTMLResponse(status_code=404)
     else:
         response.headers['Location'] = 'info'
-        return response, HTMLResponse(status_code=301)
+        response.status_code = status.HTTP_301_MOVED_PERMANENTLY
+        return response
 @app.delete('/save/{string}')
 def del_string(string: str):
     lst.remove(string)
