@@ -74,7 +74,7 @@ def check_path(string: str, response: Response):
     if string not in lst:
         return HTMLResponse(status_code=404)
     else:
-        response.headers['Location'] = '/info'
+        response.headers['Location'] = 'info'
         return response, HTMLResponse(status_code=301)
 @app.delete('/save/{string}')
 def del_string(string: str):
