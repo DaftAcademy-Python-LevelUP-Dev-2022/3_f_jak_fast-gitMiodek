@@ -24,9 +24,6 @@ def html_static():
 security = HTTPBasic()
 
 
-
-
-
 @app.post('/check', response_class=HTMLResponse)
 def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
     if (2022 - int(credentials.password.split('-')[0])) < 16 or int(credentials.password.split('-')[1]) > 12:
@@ -42,19 +39,20 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
      
 '''
 
+
 from fastapi import Header
 from typing import Optional
+
+
 @app.get('/info')
-def header(format: Optional[str] ,response:Response, user: str = Header(default=None)):
+def header(format: Optional[str], response: Response, user: str = Header(default=None)):
     if format == 'html':
         html_content = f'<input type="text" id=user-agent name=agent value="{user}">'
         HTMLResponse(content=html_content, status_code=200)
     elif format == 'json':
-        return {
-    "User-Agent": f"{user}"
-}
+        HTMLResponse(content={
+            "user_agent": f"{user}"}, status_code=200)
+
+
     else:
-        response.status_code = status.HTTP_400_BAD_REQUEST
-
-
-
+        HTMLResponse(status_code=400)
