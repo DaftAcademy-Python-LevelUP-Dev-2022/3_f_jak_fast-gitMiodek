@@ -51,15 +51,17 @@ from pydantic import BaseModel
 class Login(BaseModel):
     login: str
     password: str
+
+
 @app.post('/test',response_class=HTMLResponse)
-def post_login(item: Login):
+def post_login(credentials: HTTPBasicCredentials = Depends(security)):
     return f'''
 <html>
         <head>
             
         </head>
         <body>
-            <h1>Welcome {item.login}! You are {item.password}</h1>
+            <h1>Welcome {credentials.username}! You are {credentials.password}</h1>
         </body>
     </html>
 '''
