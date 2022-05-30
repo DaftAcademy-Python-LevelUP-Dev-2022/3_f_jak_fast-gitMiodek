@@ -66,3 +66,12 @@ def use_path(string: str):
     lst.append(string)
     return HTMLResponse(status_code=200)
 
+@app.get('/save/{string}')
+def check_path(string: str,response: Response):
+    if string not in lst:
+        return HTMLResponse(status_code=404)
+    else:
+        response.headers['Location'] = '/info'
+        return HTMLResponse(status_code=301)
+
+
