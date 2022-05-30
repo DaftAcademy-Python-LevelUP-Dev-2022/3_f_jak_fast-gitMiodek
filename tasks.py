@@ -36,21 +36,17 @@ def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
 
 @app.post('/check', response_class=HTMLResponse)
 def get_usr(username: str = Depends(check_usr_psw), password: str = Depends(check_usr_psw)):
-    wiek = (2022 - int(password.split('-')[0]))
+
     return f'''
 <html>
         <head>
             
         </head>
         <body>
-            <h1>Welcome {username}! You are {wiek}</h1>
+            <h1>Welcome {username}! You are {(2022 - int(password.split('-')[0]))}</h1>
         </body>
     </html>
 '''
-from pydantic import BaseModel
-class Login(BaseModel):
-    login: str
-    password: str
 
 
 @app.post('/test',response_class=HTMLResponse)
