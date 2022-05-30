@@ -21,7 +21,7 @@ def html_static():
     '''
 security = HTTPBasic()
 def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
-    if (2022 - int(credentials.password.split()[0])) < 16 or int(credentials.password.split()[1]) > 12:
+    if (2022 - int(credentials.password.split('-')[0])) < 16 or int(credentials.password.split('-')[1]) > 12:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Wrong date format or not old enough",
@@ -30,7 +30,7 @@ def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.password, credentials.username
 @app.post('/check', response_class=HTMLResponse)
 def get_usr(username: str = Depends(check_usr_psw), password: str = Depends(check_usr_psw)):
-    wiek = 2022 - int(password.split()[0])
+    wiek = (2022 - int(password.split('-')[0]))
     return f'''
 <html>
         <head>
