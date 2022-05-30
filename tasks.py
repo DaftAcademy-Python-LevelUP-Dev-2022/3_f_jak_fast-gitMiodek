@@ -58,3 +58,11 @@ def header(format: Union[str, None] = None, user_agent: str = Header(default=Non
 
     else:
         return HTMLResponse(status_code=400)
+
+lst = []
+
+@app.put('/save/{string}')
+def use_path(string: str):
+    lst.append(string)
+    return HTMLResponse(status_code=200)
+
