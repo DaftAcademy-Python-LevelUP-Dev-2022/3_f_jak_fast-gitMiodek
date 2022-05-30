@@ -48,7 +48,8 @@ from typing import Optional
 def header(format: str, user_agent: str = Header(default=None)):
     if format == 'html':
         html_content = f'<input type="text" id=user-agent name=agent value="{user_agent}">'
-        HTMLResponse(content=html_content, status_code=200)
+        return HTMLResponse(content=html_content, status_code=200)
+
     elif format == 'json':
         return {
             "user_agent": user_agent
@@ -56,4 +57,4 @@ def header(format: str, user_agent: str = Header(default=None)):
 
 
     else:
-        HTMLResponse(status_code=400)
+        return HTMLResponse(status_code=400)
