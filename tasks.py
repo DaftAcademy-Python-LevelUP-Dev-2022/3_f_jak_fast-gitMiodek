@@ -51,7 +51,7 @@ def header(format: Optional[str] ,response:Response, user: str = Header(default=
         HTMLResponse(content=html_content, status_code=200)
     elif format == 'json':
         return {
-    "user_agent": f"{user}"
+    "User-Agent": f"{user}"
 }
     else:
         response.status_code = status.HTTP_400_BAD_REQUEST
