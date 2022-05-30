@@ -19,7 +19,11 @@ def html_static():
     </html>
     
     '''
+
+
 security = HTTPBasic()
+
+
 def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
     if (2022 - int(credentials.password.split('-')[0])) < 16 or int(credentials.password.split('-')[1]) > 12:
         raise HTTPException(
@@ -28,6 +32,8 @@ def check_usr_psw(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.password, credentials.username
+
+
 @app.post('/check', response_class=HTMLResponse)
 def get_usr(username: str = Depends(check_usr_psw), password: str = Depends(check_usr_psw)):
     wiek = (2022 - int(password.split('-')[0]))
@@ -38,6 +44,22 @@ def get_usr(username: str = Depends(check_usr_psw), password: str = Depends(chec
         </head>
         <body>
             <h1>Welcome {username}! You are {wiek}</h1>
+        </body>
+    </html>
+'''
+from pydantic import BaseModel
+class Login(BaseModel):
+    login: str
+    password: str
+@app.post('/test',response_class=HTMLResponse)
+def post_login(item: Login):
+    return f'''
+<html>
+        <head>
+            
+        </head>
+        <body>
+            <h1>Welcome {item.login}! You are {item.password}</h1>
         </body>
     </html>
 '''
