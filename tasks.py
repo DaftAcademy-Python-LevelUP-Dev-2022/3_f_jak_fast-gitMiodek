@@ -12,6 +12,6 @@ def html_static():
             <h1>The unix epoch started at 1970-01-01</h1>
         </body>
     </html>
-    """
+    
     '''
 
