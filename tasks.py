@@ -41,11 +41,11 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
 
 
 from fastapi import Header
-from typing import Optional
+from typing import Union
 
 
 @app.get('/info')
-def header(format: Optional[str], user_agent: str = Header(default=None)):
+def header(format: Union[str, None] = None, user_agent: str = Header(default=None)):
     if format == 'html':
         html_content = f'<input type="text" id=user-agent name=agent value="{user_agent}">'
         return HTMLResponse(content=html_content, status_code=200)
