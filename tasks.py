@@ -44,13 +44,13 @@ def get_usr(credentials: HTTPBasicCredentials = Depends(security)):
 
 from fastapi import Header
 @app.get('/info')
-def header(format: str = Header(default=None)):
+def header(format: str , user: str = Header(default=None)):
     if format == 'html':
-        html_content = '<input type="text" id=user-agent name=agent value="<wartość User-Agent>">'
+        html_content = f'<input type="text" id=user-agent name=agent value="{user}">'
         HTMLResponse(content=html_content, status_code=200)
     elif format == 'json':
         return {
-    "user_agent": "<wartość headera User-Agent wyslanego przez użytkownika>"
+    "user_agent": f"{user}"
 }
     else:
         return status.HTTP_400_BAD_REQUEST
